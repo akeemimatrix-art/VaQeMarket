@@ -1,24 +1,12 @@
-export const VAQE_VERSION = "0.1.0";
-export const PIP_SIZE = 0.0001;
-export const PROTOCOL_FEE = 0.02;
-export const ORACLE_PROBE_INTERVAL_SECONDS = 30;
-export const ORACLE_OUTLIER_SIGMA = 2.5;
+export const MARKET_FEE_RATE = 0.02;
+export const POSITION_TRANSFER_FEE_RATE = 0.01;
+export const MIN_STAKE_USDC = 1;
+export const MAX_STAKE_USDC = 1_000_000;
 
-export const NODE_WEIGHTS = {
-  sentinel: 1,
-  validator: 2.5,
-  anchor: 5,
-} as const;
-
-export const MARKETS = {
-  STO: "Cloud & Storage",
-  PAY: "Payment Infrastructure",
-  AI: "AI Infrastructure",
-  INF: "Network / CDN",
-  DEV: "Developer Infrastructure",
-  CHAIN: "Web3 Infrastructure",
-  ADV: "Advertising Infrastructure",
-  COM: "Communication Infrastructure",
-  SEC: "Security Infrastructure",
-  CRE: "Software Creation Infrastructure",
+export const CONTRACT_DURATIONS = {
+  FIFTEEN_MINUTES: 15 * 60,
+  ONE_HOUR: 60 * 60,
+  FOUR_HOURS: 4 * 60 * 60,
+  ONE_DAY: 24 * 60 * 60,
+  SEVEN_DAYS: 7 * 24 * 60 * 60,
 } as const;

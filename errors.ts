@@ -1,14 +1,10 @@
-export class VaQeError extends Error {
-  constructor(message: string, public readonly code: string) {
+export class MarketEngineError extends Error {
+  constructor(message: string) {
     super(message);
-    this.name = "VaQeError";
+    this.name = "MarketEngineError";
   }
 }
 
-export const Errors = {
-  INVALID_INDEX: "INVALID_INDEX",
-  INVALID_STAKE: "INVALID_STAKE",
-  INVALID_DURATION: "INVALID_DURATION",
-  MARKET_CLOSED: "MARKET_CLOSED",
-  ORACLE_UNAVAILABLE: "ORACLE_UNAVAILABLE",
-} as const;
+export class InvalidOrderError extends MarketEngineError {}
+export class InsufficientLiquidityError extends MarketEngineError {}
+export class InvalidPriceError extends MarketEngineError {}
