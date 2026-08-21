@@ -1,37 +1,4 @@
-export type Side = "LONG" | "SHORT";
-export type OrderType = "MARKET" | "LIMIT";
-
-export interface MarketSnapshot {
-  symbol: string;
-  stoF: number;
-  stoM: number;
-  timestamp: number;
-}
-
-export interface Order {
-  id: string;
-  traderId: string;
-  symbol: string;
-  side: Side;
-  type: OrderType;
-  price?: number;
-  stake: number;
-  durationSeconds: number;
-  createdAt: number;
-}
-
-export interface Match {
-  id: string;
-  symbol: string;
-  longOrderId: string;
-  shortOrderId: string;
-  stake: number;
-  executionPrice: number;
-  matchedAt: number;
-}
-
-export interface Divergence {
-  absolute: number;
-  percentage: number;
-  premium: "PREMIUM" | "DISCOUNT" | "PAR";
-}
+export type Side="LONG"|"SHORT";
+export type ContractStatus="OPEN"|"TARGET_HIT"|"EXPIRED"|"CASHED_OUT";
+export type PerformanceContract={id:string;trader:string;symbol:string;side:Side;stakeUsdc:number;target:number;openedAtMs:number;expiresAtMs:number;status:ContractStatus};
+export type Settlement={contractId:string;status:Exclude<ContractStatus,"OPEN">;payoutUsdc:number;feeUsdc:number;settledAtMs:number};

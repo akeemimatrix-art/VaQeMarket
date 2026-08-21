@@ -1,38 +1,9 @@
-import { PerformanceContract } from "./contracts";
-
-export interface SettlementResult {
-  contractId: string;
-  outcome: "WON" | "LOST" | "CASHED_OUT";
-  payout: number;
-}
-
-export function settleAtExpiry(
-  contract: PerformanceContract,
-  finalStoF: number,
-): SettlementResult {
-  const won =
-    contract.side === "LONG"
-      ? finalStoF >= contract.target
-      : finalStoF <= contract.target;
-
-  return {
-    contractId: contract.id,
-    outcome: won ? "WON" : "LOST",
-    payout: won ? contract.stake : 0,
-  };
-}
-
-export function cashOut(
-  contract: PerformanceContract,
-  now: number,
-): SettlementResult {
-  const remaining = Math.max(0, contract.expiresAt - now);
-  const duration = Math.max(1, contract.expiresAt - contract.openedAt);
-  const payout = contract.stake * (remaining / duration);
-
-  return {
-    contractId: contract.id,
-    outcome: "CASHED_OUT",
-    payout,
-  };
+import type { PerformanceContract, Settlement } from "./types";
+import { earlyExitPayout } from "./timeDecay";
+export function settleContract(c:PerformanceContract,fundamental:number,now:number,profitRate=.25,protocolFeeRate=.02):Settlement{
+ if(c.status!=="OPEN")throw new Error("Contract is already settled.");
+ const hit=c.side==="LONG"?fundamental>=c.target:fundamental<=c.target;
+ if(hit&&now<=c.expiresAtMs){const profit=c.stakeUsdc*profitRate,fee=profit*protocolFeeRate;return{contractId:c.id,status:"TARGET_HIT",payoutUsdc:c.stakeUsdc+profit-fee,feeUsdc:fee,settledAtMs:now};}
+ if(now>=c.expiresAtMs)return{contractId:c.id,status:"EXPIRED",payoutUsdc:0,feeUsdc:0,settledAtMs:now};
+ const cash=earlyExitPayout(c.stakeUsdc,c.openedAtMs,c.expiresAtMs,now,{protocolFeeRate});return{contractId:c.id,status:"CASHED_OUT",payoutUsdc:cash.payoutUsdc,feeUsdc:cash.feeUsdc,settledAtMs:now};
 }
