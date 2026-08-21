@@ -1,0 +1,2 @@
+export type RiskLimits={maxStakeUsdc:number;maxOpenInterestUsdc:number;maxTraderOpenInterestUsdc:number};
+export function validateStake(stake:number,current:number,trader:number,limits:RiskLimits){if(stake<=0)throw new Error('Stake must be positive');if(stake>limits.maxStakeUsdc)throw new Error('Stake limit');if(current+stake>limits.maxOpenInterestUsdc)throw new Error('Market open-interest limit');if(trader+stake>limits.maxTraderOpenInterestUsdc)throw new Error('Trader open-interest limit');}

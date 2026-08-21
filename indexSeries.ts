@@ -1,0 +1,4 @@
+import type { Candle } from './candles';
+export type IndexPoint={timestampMs:number;value:number};
+export function appendIndexPoint(series:IndexPoint[],point:IndexPoint,maxPoints=10000){ if(point.value<0||point.value>100) throw new Error('Index must be 0..100'); return [...series,point].sort((a,b)=>a.timestampMs-b.timestampMs).slice(-maxPoints); }
+export function candlesFromPoints(points:IndexPoint[],intervalMs:number):Candle[]{ const m=new Map<number,IndexPoint[]>(); for(const p of points){const b=Math.floor(p.timestampMs/intervalMs)*intervalMs; m.set(b,[...(m.get(b)||[]),p]);} return [...m.entries()].sort(([a],[b])=>a-b).map(([openTime,g])=>({openTime,closeTime:openTime+intervalMs,open:g[0].value,high:Math.max(...g.map(x=>x.value)),low:Math.min(...g.map(x=>x.value)),close:g[g.length-1].value,volume:0})); }

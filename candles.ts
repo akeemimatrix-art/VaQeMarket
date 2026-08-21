@@ -1,43 +1,11 @@
-export interface Candle {
-  timestamp: number;
-  open: number;
-  high: number;
-  low: number;
-  close: number;
-  volume: number;
-}
-
+export type Candle = { openTime:number; closeTime:number; open:number; high:number; low:number; close:number; volume:number };
 export class CandleBuilder {
-  private readonly candles = new Map<number, Candle>();
-
-  update(timestamp: number, price: number, volume = 0): Candle {
-    const bucket = Math.floor(timestamp / 60_000) * 60_000;
-    const current = this.candles.get(bucket);
-
-    if (!current) {
-      const candle = {
-        timestamp: bucket,
-        open: price,
-        high: price,
-        low: price,
-        close: price,
-        volume,
-      };
-      this.candles.set(bucket, candle);
-      return candle;
-    }
-
-    current.high = Math.max(current.high, price);
-    current.low = Math.min(current.low, price);
-    current.close = price;
-    current.volume += volume;
-
-    return current;
+  private current?: Candle;
+  constructor(private readonly intervalMs:number){ if(!Number.isInteger(intervalMs)||intervalMs<=0) throw new Error('intervalMs must be positive'); }
+  update(price:number,timestampMs:number,volume=0):Candle{
+    const openTime=Math.floor(timestampMs/this.intervalMs)*this.intervalMs;
+    if(!this.current||this.current.openTime!==openTime){ this.current={openTime,closeTime:openTime+this.intervalMs,open:price,high:price,low:price,close:price,volume:Math.max(0,volume)}; return {...this.current}; }
+    this.current.high=Math.max(this.current.high,price); this.current.low=Math.min(this.current.low,price); this.current.close=price; this.current.volume+=Math.max(0,volume); return {...this.current};
   }
-
-  all(): Candle[] {
-    return [...this.candles.values()].sort(
-      (a, b) => a.timestamp - b.timestamp,
-    );
-  }
+  getCurrent(){ return this.current?{...this.current}:undefined; }
 }
