@@ -1,4 +1,18 @@
-export type Side="LONG"|"SHORT";
-export type ContractStatus="OPEN"|"TARGET_HIT"|"EXPIRED"|"CASHED_OUT";
-export type PerformanceContract={id:string;trader:string;symbol:string;side:Side;stakeUsdc:number;target:number;openedAtMs:number;expiresAtMs:number;status:ContractStatus};
-export type Settlement={contractId:string;status:Exclude<ContractStatus,"OPEN">;payoutUsdc:number;feeUsdc:number;settledAtMs:number};
+export type StreamName = "STO-F" | "STO-M";
+
+export type StreamPoint = {
+  stream: StreamName;
+  value: number;
+  timestampMs: number;
+};
+
+export type Candle = {
+  stream: StreamName;
+  openTime: number;
+  closeTime: number;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  volume: number;
+};
