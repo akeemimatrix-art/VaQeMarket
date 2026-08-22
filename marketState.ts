@@ -1,13 +1,28 @@
-export type MarketState = {
-  stoF: number | null;
-  stoM: number | null;
-  oracleStatus: "LIVE" | "PAUSED" | "DEGRADED";
-  lastUpdate: number | null;
-};
+import type { MarketState } from "../types/market";
 
-export const initialMarketState: MarketState = {
-  stoF: null,
-  stoM: null,
-  oracleStatus: "PAUSED",
-  lastUpdate: null,
-};
+export class MarketStateStore {
+  private state: MarketState;
+
+  constructor(symbol = "STO") {
+    this.state = {
+      symbol,
+      stoF: 0,
+      stoM: 0,
+      updatedAt: Date.now(),
+    };
+  }
+
+  updateFundamental(stoF: number) {
+    this.state.stoF = stoF;
+    this.state.updatedAt = Date.now();
+  }
+
+  updateMarket(stoM: number) {
+    this.state.stoM = stoM;
+    this.state.updatedAt = Date.now();
+  }
+
+  get() {
+    return { ...this.state };
+  }
+}

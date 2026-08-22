@@ -1,10 +1,14 @@
-# VaQeMarket Market Visualization Layer
+# VaQeMarket — Market Engine Layer
 
-Next application layer: STO-F measured reality + STO-M market price visualization.
+Next application layer after market visualization.
 
-## Key rule
-STO-F is produced by the oracle/data layer. STO-M is produced by the market engine.
-Neither feed is allowed to rewrite the other.
+This layer provides the backend-facing market engine contracts for:
+- STO-F fundamental index state
+- STO-M market state
+- order matching
+- divergence calculation
+- position lifecycle
+- deterministic market events
+- API adapters
 
-This layer prepares the terminal for realtime dual-series candles, divergence,
-order-book display, and performance-contract trading.
+STO-F and STO-M remain strictly separated.

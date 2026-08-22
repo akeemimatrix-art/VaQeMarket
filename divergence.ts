@@ -1,2 +1,4 @@
-export type Divergence={absolute:number;percent:number;premium:boolean;discount:boolean};
-export function calculateDivergence(marketPrice:number,fundamentalIndex:number):Divergence{ if(fundamentalIndex===0)return{absolute:marketPrice,percent:0,premium:marketPrice>0,discount:false}; const absolute=marketPrice-fundamentalIndex; return{absolute,percent:absolute/fundamentalIndex*100,premium:absolute>0,discount:absolute<0}; }
+export function divergence(stoF: number, stoM: number): number {
+  if (stoF === 0) return 0;
+  return ((stoM - stoF) / stoF) * 100;
+}
