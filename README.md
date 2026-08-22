@@ -1,21 +1,10 @@
-# VaQeMarket Trading UI Layer
+# VaQeMarket Market Visualization Layer
 
-This layer adds the first market-facing realtime pieces:
+Next application layer: STO-F measured reality + STO-M market price visualization.
 
-- WebSocket message protocol
-- Order book
-- Matching engine
-- Trading gateway
-- Dual STO-F / STO-M candle store
-- Realtime WebSocket client
-- Dual-candle market panel
-- STO-M order ticket
+## Key rule
+STO-F is produced by the oracle/data layer. STO-M is produced by the market engine.
+Neither feed is allowed to rewrite the other.
 
-Important boundary:
-
-STO-F is produced by the oracle/data layer and is never modified by market orders.
-STO-M is produced by market activity and is never used to rewrite STO-F.
-
-This is application infrastructure, not a production-ready exchange. Add authentication,
-persistent storage, deterministic settlement, risk controls, rate limits, audit logging,
-and legal/compliance controls before handling real funds.
+This layer prepares the terminal for realtime dual-series candles, divergence,
+order-book display, and performance-contract trading.
