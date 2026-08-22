@@ -1,0 +1,10 @@
+export type Side="LONG"|"SHORT";
+export type ContractStatus="OPEN"|"TARGET_HIT"|"EXPIRED"|"CASHED_OUT";
+export type PerformanceContract={id:string;trader:string;symbol:string;side:Side;stakeUsdc:number;target:number;openedAtMs:number;expiresAtMs:number;status:ContractStatus};
+export type Settlement={contractId:string;status:Exclude<ContractStatus,"OPEN">;payoutUsdc:number;feeUsdc:number;settledAtMs:number};
+export type TelemetryRole="BUILDER"|"VALIDATOR"|"OBSERVER";
+export type TelemetrySample={nodeId:string;role:TelemetryRole;timestampMs:number;latencyMs:number;uptimePercent:number;errorRatePercent:number;nonce:string};
+export type OracleTick={symbol:string;value:number;timestampMs:number;sampleCount:number;confidence:number;sourceHash:string};
+export const NODE_WEIGHT:Record<TelemetryRole,number>={BUILDER:1,VALIDATOR:1,OBSERVER:1};
+export type Order={id:string;traderId:string;symbol:string;side:Side;stake:number;price?:number};
+export type Match={id:string;symbol:string;longOrderId:string;shortOrderId:string;stake:number;executionPrice:number;matchedAt:number};

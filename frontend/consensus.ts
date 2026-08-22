@@ -1,3 +1,4 @@
+/// <reference path="./node-crypto.d.ts" />
 import { createHash } from "node:crypto";
 import { filterOutliers } from "./outlierFilter";
 import { NODE_WEIGHT, type OracleTick, type TelemetrySample } from "./types";

@@ -1,3 +1,4 @@
+/// <reference path="./node-crypto.d.ts" />
 import { createHash } from "node:crypto";
 import type { TelemetrySample } from "./types";
 export type Commitment = { nodeId: string; hash: string; committedAtMs: number };
